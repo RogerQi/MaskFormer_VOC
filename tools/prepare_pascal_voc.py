@@ -1,8 +1,10 @@
 import os
 import shutil
 import numpy as np
+from tqdm import tqdm
 
-base_dir = "/data/VOCdevkit"
+base_dir = os.getenv("DETECTRON2_DATASETS", "datasets")
+base_dir = os.path.join(base_dir, "VOCdevkit")
 raw_voc_dir = os.path.join(base_dir, "VOC2012")
 target_voc_dir = os.path.join(base_dir, "VOC2012_detectron2")
 
@@ -22,14 +24,14 @@ for split in ["trainaug", "val"]:
     annotation_dir = os.path.join(split_dir, "annotations")
     os.makedirs(annotation_dir, exist_ok=True)
 
-    # Copy images
-    for name in file_names:
+    
+    for name in tqdm(file_names):
+        # Copy images
         src = os.path.join(raw_voc_dir, "JPEGImages", name + ".jpg")
         dst = os.path.join(image_dir, name + ".jpg")
         shutil.copy(src, dst)
 
-    # Copy annotations
-    for name in file_names:
+        # Copy annotations
         src = os.path.join(raw_voc_dir, "SegmentationClassAug", name + ".png")
         dst = os.path.join(annotation_dir, name + ".png")
         shutil.copy(src, dst)
