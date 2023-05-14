@@ -36,6 +36,7 @@ from mask_former import (
     DETRPanopticDatasetMapper,
     MaskFormerPanopticDatasetMapper,
     MaskFormerSemanticDatasetMapper,
+    MaskFormerSemanticCopyDatasetMapper,
     SemanticSegmentorWithTTA,
     add_mask_former_config,
 )
@@ -105,6 +106,8 @@ class Trainer(DefaultTrainer):
         # Semantic segmentation dataset mapper
         if cfg.INPUT.DATASET_MAPPER_NAME == "mask_former_semantic":
             mapper = MaskFormerSemanticDatasetMapper(cfg, True)
+        elif cfg.INPUT.DATASET_MAPPER_NAME == "mask_former_semantic_copy_paste":
+            mapper = MaskFormerSemanticCopyDatasetMapper(cfg, True)
         # Panoptic segmentation dataset mapper
         elif cfg.INPUT.DATASET_MAPPER_NAME == "mask_former_panoptic":
             mapper = MaskFormerPanopticDatasetMapper(cfg, True)
